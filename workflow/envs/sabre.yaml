@@ -1,0 +1,8 @@
+name: sabre
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+  - conda-canary
+dependencies:
+  - sabre=1.000

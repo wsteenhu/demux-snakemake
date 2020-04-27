@@ -1,0 +1,22 @@
+# ignore snakemake-directories
+.snakemake/
+.Snakefile.swp
+
+# ignore vscode-directories
+.vscode/
+
+# ignore data-folders
+logs/
+data/
+raw_mock/
+old/
+
+# ignore R-files
+.Rhistory
+
+# ignore ipynb
+.ipynb_checkpoints
+
+# output
+config/run_sheet.csv
+config/sample_sheet.csv

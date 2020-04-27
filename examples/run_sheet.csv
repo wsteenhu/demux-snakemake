@@ -1,0 +1,5 @@
+"run_ids","read","full_paths"
+"runxx","f","/hpc/dla_mm/bogaert/raw/run_xx/runxx_f.fastq"
+"runxx","r","/hpc/dla_mm/bogaert/raw/run_xx/runxx_r.fastq"
+"runyy","f","/hpc/dla_mm/bogaert/raw/run_yy/runyy_f.fastq"
+"runyy","r","/hpc/dla_mm/bogaert/raw/run_yy/runyy_r.fastq"
