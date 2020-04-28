@@ -27,13 +27,13 @@ git clone https://github.com/wsteenhu/demux-snakemake.git
 
 Cloning the repository will download a few files and create directories (among others `config/`, `examples/` and `workflow` [including `envs/` and `scripts/`]).
 
-#### Step 2: Add mapping files
+#### Step 2: add mapping files
 
 Add mapping files for each run into the folder `mapping_files`. These mapping files are formatted in the same way as the mapping files that were created to run the QIIME1-pipeline we previously used. They should minimally include two columns with sample-IDs (**#SampleID**) and barcodes (**BarcodeSequence**). Others columns, like **LinkerPrimerSequence** , **Description** or others, are optional. Please find an example of a mapping file in `examples`.
 
 Alternatively, another location can be chosen for these mapping files, which should be adjusted in the `config/congfig.yaml`-file.
 
-#### Step 3: Create `run_sheet.csv`
+#### Step 3: create `run_sheet.csv`
 
 In order for this pipeline to work, we need a `run_sheet.csv`-file within the `config`-folder. This file is used as a pointer to the raw sequence-files that should be demultiplexed.
 The file consists of a three tab-separated columns entitled **run_ids** (i.e. `run14`), **read** (i.e. `f` or `r`) and **full_paths** (i.e. `/hpc/dla_mm/bogaert/raw/run14/run14_f.fastq`. See `examples` for an example `run_sheet.csv`. 
