@@ -49,16 +49,16 @@ srun --time="00:30:00" --pty bash
 
 Adjust `--time=` for a longer session.
 
-2. Activate the snakemake-environment (named `snake_master`):
+2. Activate the snakemake-environment (named `snakemake`):
 ```
-conda activate snake_master
+conda activate snakemake
 ```
 
-Note that this environment should be available for group members (installed here: `hpc/dla_mm/bogaert/miniconda3/envs/snake_master`). 
+Note that this environment should be available for group members (installed here: `hpc/dla_mm/bogaert/miniconda3/envs/snakemake`). 
 If this is not the case, the following command can be used to install the needed conda-environment:
 
 ```
-conda env create -f workflow/envs/snake_master.yaml
+conda env create -f workflow/envs/snakemake.yaml
 ```
 
 3. Install conda environments within the project folder (necessary to run snakemake):
