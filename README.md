@@ -85,7 +85,11 @@ snakemake --use-conda --cores 1
 
 #### Step 5: run snakemake on cluster
 
-... [ work in progress ]
+Set up a Snakemake SLURM profile as described [here](https://github.com/wsteenhu/demux-snakemake/blob/master/set_up_snakemake.md). If needed adjust the time/memory allocated per rule in the Snakefile adjusting the `resources`.
+
+```
+snakemake --profile slurm
+```
 
 ## Output
 
