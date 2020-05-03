@@ -29,7 +29,7 @@ rule all:
     expand("data/demux_mapping/demux_mapping_{run_id}.txt", run_id=RUNS),
     "config/sample_sheet.csv",
     "data/qc/multiqc_input/multiqc.html",
-    expand("data/demux/no_bc_match_{run_id}_{read_format}.fastq", run_id=RUNS, read_format=["R1", "R2"]),
+    "logs/fastq_moved.done",
     "logs/demux_overview.csv"
 
 rule create_mappings:
@@ -49,6 +49,7 @@ rule fastqc:
     "data/qc/fastqc_input/{run_id}_{read}_fastqc.zip"
   params:
     outdir="data/qc/fastqc_input/"
+  resources: mem=15, time=15 #, cpus-per-task=1
   conda:
     "workflow/envs/qc.yaml"
   shell:
@@ -71,6 +72,7 @@ rule format:
     lambda wildcards: RUNS[wildcards.run_id][wildcards.read]
   output:
     temp("data/temp/{run_id}_{read}.fastq")
+  resources: mem=15, time=15
   shell:
     """
     cat {input} | awk -F ':' 'NR == 1 || NR % 4 == 1 {{split($10, arr, "+"); barcode=arr[1]arr[2]; print $0}} NR % 4 == 2 || NR % 4 == 0 {{print barcode $0}} NR % 4 == 3 {{print $0}}' > {output}
@@ -82,11 +84,9 @@ rule demux:
     rv="data/temp/{run_id}_r.fastq",
     bc="data/demux_mapping/demux_mapping_{run_id}.txt"
   output:
-    u=temp("data/demux/no_bc_match_{run_id}_R1.fastq"),
-    w=temp("data/demux/no_bc_match_{run_id}_R2.fastq")
-  params:
-    outdir=directory("data/demux/"),
-    tempdir=directory("data/temp/")
+    u="data/demux/no_bc_match/{run_id}_R1.fastq",
+    w="data/demux/no_bc_match/{run_id}_R2.fastq"
+  resources: mem=15, time=15
   conda:
     "workflow/envs/sabre.yaml"
   log:
@@ -94,11 +94,25 @@ rule demux:
   shell:
     """
     sabre pe -f {input.fw} -r {input.rv} -b {input.bc} -u {output.u} -w {output.w} -c > {log} 2>&1
-    gzip *_001.fastq
-    mv *_001.fastq.gz {params.outdir}
-    rm -r {params.tempdir}
     """
+    #gzip -f *_001.fastq
+    #mv *_001.fastq.gz {params.outdir}
+    #https://bitbucket.org/snakemake/snakemake/issues/964/snakemake-shadow-directory-copies-unneeded
 
+rule move:
+  input: 
+    expand("data/demux/no_bc_match/{run_id}_{read_format}.fastq", run_id=RUNS, read_format=["R1", "R2"])
+  output:
+    touch("logs/fastq_moved.done")
+  params:
+    outdir=directory("data/demux/")
+  shell:
+    """
+    gzip -f *_001.fastq
+    mv *_001.fastq.gz {params.outdir}
+    """
+    #rule move was added as gzip/mv of non-defined fastq-files did not work in a parallel setting when added to demux.
+    
 rule create_demux_overview:
   input:
     demux_mappings=expand("data/demux_mapping/demux_mapping_{run_id}.txt", run_id=RUNS),
