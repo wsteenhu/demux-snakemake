@@ -2,6 +2,8 @@
 _April 2020_  
 _Wouter de Steenhuijsen Piters_
 
+[![Snakemake](https://img.shields.io/badge/snakemake-5.13.0-brightgreen.svg)](https://snakemake.bitbucket.io)
+
 **Disclaimer: this is very much work in progress and by no means a finished pipeline**
 
 This small pipeline serves as a test-case to explore the possibilities of [snakemake](https://academic.oup.com/bioinformatics/article/28/19/2520/290322) to develop consistent pipelines to use in our research group.
